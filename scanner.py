@@ -5,7 +5,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import time
 
-# ✏️ FILL THESE IN
+# FILL THESE IN
 YOUR_EMAIL = "youremailid"
 YOUR_APP_PASSWORD = "app code 16 characters"
 ALERT_EMAIL = "alertemailid"
@@ -48,9 +48,9 @@ def send_alert(new_devices):
         server.login(YOUR_EMAIL, YOUR_APP_PASSWORD)
         server.sendmail(YOUR_EMAIL, ALERT_EMAIL, msg.as_string())
         server.quit()
-        print("✅ Alert email sent!")
+        print("Alert email sent!")
     except Exception as e:
-        print(f"❌ Email error: {e}")
+        print(f"Email error: {e}")
 
 # Main monitoring loop
 print("🔍 Starting network monitor...")
@@ -59,7 +59,7 @@ known_devices = set()
 # First scan - learn existing devices
 for d in scan("actual ip"):
     known_devices.add(d['mac'])
-print(f"✅ Found {len(known_devices)} existing devices. Monitoring for new ones...\n")
+print(f"Found {len(known_devices)} existing devices. Monitoring for new ones...\n")
 
 while True:
     current_devices = scan("actual ip")
@@ -67,13 +67,13 @@ while True:
 
     for device in current_devices:
         if device['mac'] not in known_devices:
-            print(f"🚨 New device found: {device['ip']} | {device['mac']} | {device['name']}")
+            print(f"New device found: {device['ip']} | {device['mac']} | {device['name']}")
             known_devices.add(device['mac'])
             new_devices.append(device)
 
     if new_devices:
         send_alert(new_devices)
     else:
-        print("✅ No new devices. Network is clean.")
+        print("No new devices. Network is clean.")
 
     time.sleep(60)  # scan every 60 seconds
